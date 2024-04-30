@@ -34,6 +34,15 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
+    android {
+        buildFeatures {
+            viewBinding = true
+        }
+    }
+
 }
 
 dependencies {
@@ -44,10 +53,16 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.storage.ktx)
+    implementation(libs.firebase.storage)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
-    implementation("com.google.firebase:firebase-auth-ktx")
+
+
+
 
 }

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/activity_register.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".RegisterActivity"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/tvRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:textSize="24sp"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvRegister"
+        android:layout_marginTop="8dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etEmail"
+        android:layout_marginTop="8dp"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/etFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etPassword"
+        android:layout_marginTop="8dp"
+        android:hint="First Name" />
+
+    <EditText
+        android:id="@+id/etIdentificationNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etFirstName"
+        android:layout_marginTop="8dp"
+        android:hint="Identification Number" />
+
+    <Button
+        android:id="@+id/btnTakePhoto"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivProfileImage"
+        android:layout_marginTop="16dp"
+        android:text="Take Photo"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/etIdentificationNumber"
+        android:layout_marginTop="16dp"
+        android:src="@android:drawable/ic_menu_camera"
+        android:scaleType="centerCrop"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnTakePhoto"
+        android:layout_marginTop="16dp"
+        android:text="Register"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
