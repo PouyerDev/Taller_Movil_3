@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         val user = auth.currentUser
                         updateUI(user)
-                        val intent = Intent(this, HomeActivity::class.java)
+                        val intent = Intent(this, MapsActivity::class.java)
                         startActivity(intent)
                     }
                 }
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null) {
-            val intent = Intent(this, HomeActivity::class.java)
+            val intent = Intent(this, MapsActivity::class.java)
             intent.putExtra("user", currentUser.email)
             startActivity(intent)
         } else {
