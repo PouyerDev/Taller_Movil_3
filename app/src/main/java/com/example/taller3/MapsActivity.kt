@@ -1,6 +1,7 @@
 package com.example.taller3
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.hardware.Sensor
@@ -23,9 +24,17 @@ import android.os.Environment
 import android.os.Handler
 import android.os.StrictMode
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.example.taller3.databinding.ActivityMapsBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import org.json.JSONArray
 import org.json.JSONObject
 import org.osmdroid.api.IGeoPoint
@@ -62,6 +71,15 @@ class MapsActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var binding: ActivityMapsBinding
     private var mGeocoder: Geocoder? = null
 
+//firebase
+    private lateinit var userReference: DatabaseReference
+    private lateinit var auth: FirebaseAuth
+    private lateinit var database: FirebaseDatabase
+    private lateinit var userId: String
+
+
+
+
 
     //Rutas
     private var roadOverlay: Polyline? = null
@@ -70,6 +88,18 @@ class MapsActivity : AppCompatActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mGeocoder = Geocoder(this)
+
+
+        //firebase
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+
+
+        val currentUser = auth.currentUser
+        userId = currentUser?.uid ?: ""
+        userReference = database.reference.child("users").child(userId)
+
+        //firebaseEND
 
         // Sensor de luz
         mSensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
@@ -110,7 +140,8 @@ class MapsActivity : AppCompatActivity(), SensorEventListener {
         StrictMode.setThreadPolicy(policy)
         roadManager = OSRMRoadManager(this, "ANDROID")
 
-
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
     }
     //Attribute
@@ -397,6 +428,64 @@ class MapsActivity : AppCompatActivity(), SensorEventListener {
 
         // Actualizar el mapa
         map.invalidate()
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_change_status -> {
+                userReference.child("estado").addListenerForSingleValueEvent(object :
+                    ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val currentState = snapshot.getValue(Boolean::class.java)
+
+                        val newStatus = if (currentState == true) false else true
+
+                        userReference.child("estado").setValue(newStatus)
+                            .addOnSuccessListener {
+                                Toast.makeText(this@MapsActivity, "Estado cambiado a $newStatus", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this@MapsActivity, "Error al cambiar el estado", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(this@MapsActivity, "Error al obtener el estado", Toast.LENGTH_SHORT).show()
+                    }
+                })
+                true
+            }
+            R.id.verDisponibles -> {
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.action_logout -> {
+                auth.signOut()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun getUserStatus() {
+        userReference.child("Estado").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // No necesitas implementar nada aquí si la lógica se maneja en onOptionsItemSelected
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@MapsActivity, "Error al obtener el estado", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }
 

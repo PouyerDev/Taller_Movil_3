@@ -32,7 +32,8 @@
         android:layout_below="@+id/etEmail"
         android:layout_marginTop="8dp"
         android:hint="Contraseña"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        />
 
     <Button
         android:id="@+id/btnLogin"
