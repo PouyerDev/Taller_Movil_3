@@ -26,8 +26,8 @@ import android.os.StrictMode
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import com.example.taller3.databinding.ActivityMapsBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -50,8 +50,6 @@ import java.util.Locale
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.views.overlay.Marker
 import java.io.IOException
-import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-import org.osmdroid.util.MapTileIndex
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Polyline
 import org.osmdroid.views.overlay.TilesOverlay
@@ -87,6 +85,8 @@ class MapsActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         mGeocoder = Geocoder(this)
 
 
@@ -461,7 +461,7 @@ class MapsActivity : AppCompatActivity(), SensorEventListener {
                 true
             }
             R.id.verDisponibles -> {
-                val intent = Intent(this, HomeActivity::class.java)
+                val intent = Intent(this, Usuarios::class.java)
                 startActivity(intent)
                 return true
             }
